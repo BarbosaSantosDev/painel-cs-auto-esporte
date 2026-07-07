@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 import {
   BarChart,
   Bar,
@@ -19,42 +19,26 @@ import {
   FileWarning,
   Repeat,
   Clock,
-  Sun,
-  Moon,
 } from "lucide-react";
 
-// ---------- Design tokens (dois temas) ----------
-const THEMES = {
-  dark: {
-    bg: "#0B0F0C",
-    panel: "#141915",
-    panelAlt: "#1B221C",
-    line: "#283229",
-    text: "#F2F3EF",
-    muted: "#8B9690",
-    amber: "#E0A72E",
-    green: "#2FA84F",
-    red: "#E4572E",
-  },
-  light: {
-    bg: "#F3F6F1",
-    panel: "#FFFFFF",
-    panelAlt: "#F2F5F0",
-    line: "#C7CFC2",
-    text: "#12161A",
-    muted: "#5B655F",
-    amber: "#B8790A",
-    green: "#1F8A3D",
-    red: "#C1451F",
-  },
+// ---------- Design tokens ----------
+const COLORS = {
+  bg: "#F3F6F1",
+  panel: "#FFFFFF",
+  panelAlt: "#F2F5F0",
+  line: "#C7CFC2",
+  text: "#12161A",
+  muted: "#5B655F",
+  amber: "#B8790A",
+  green: "#1F8A3D",
+  red: "#C1451F",
 };
-
 
 const displayFont = "'Oswald', 'Arial Narrow', sans-serif";
 const bodyFont = "'Inter', 'Helvetica Neue', sans-serif";
 const monoFont = "'Roboto Mono', monospace";
 
-const ColorContext = createContext(THEMES.dark);
+const ColorContext = createContext(COLORS);
 const useColors = () => useContext(ColorContext);
 
 // ---------- Illustrative data (template — substituir por dados reais) ----------
@@ -242,23 +226,8 @@ function SectionTitle({ eyebrow, title }) {
   );
 }
 
-function ThemeToggle({ theme, setTheme }) {
-  const colors = useColors();
-  return (
-    <button
-      onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-      aria-label="Alternar tema claro/escuro"
-      className="flex items-center justify-center w-9 h-9 rounded-full shrink-0"
-      style={{ background: colors.panelAlt, border: `1px solid ${colors.line}`, color: colors.green }}
-    >
-      {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-    </button>
-  );
-}
-
 export default function PainelCS() {
-  const [theme, setTheme] = useState("dark");
-  const colors = THEMES[theme];
+  const colors = COLORS;
 
   const stageColor = (score) => {
     if (score >= 70) return colors.green;
@@ -270,7 +239,7 @@ export default function PainelCS() {
     <ColorContext.Provider value={colors}>
       <div
         style={{ background: colors.bg, fontFamily: bodyFont, color: colors.text }}
-        className="w-full min-h-full transition-colors duration-200"
+        className="w-full min-h-full"
       >
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap');
@@ -280,10 +249,7 @@ export default function PainelCS() {
         <div className="px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6" style={{ borderBottom: `1px solid ${colors.line}` }}>
           <div className="flex items-start sm:items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
-              <div
-                className="h-11 sm:h-12 px-3 py-2 rounded-md flex items-center shrink-0"
-                style={{ background: theme === "dark" ? "#FFFFFF" : "transparent" }}
-              >
+              <div className="h-11 sm:h-12 px-3 py-2 rounded-md flex items-center shrink-0">
                 <img
                   src="/logo-auto-esporte.png"
                   alt="Auto Esporte Multimarcas"
@@ -306,7 +272,6 @@ export default function PainelCS() {
               >
                 Informações coletadas a partir de avaliações reais na internet
               </div>
-              <ThemeToggle theme={theme} setTheme={setTheme} />
             </div>
           </div>
         </div>
